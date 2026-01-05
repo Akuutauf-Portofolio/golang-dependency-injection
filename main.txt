@@ -1,0 +1,19 @@
+package main
+
+// aplikasi CRUD sederhana
+// akan membuat aplikasi sederhana dengan implementasi CRUD dengan metode restful api
+// akan membuat aplkasi CRUD untuk data cetgory yang memiliki atribut id (number) dan name (string)
+// akan membuat API untuk operasi create, read (get dan list), update dan delete data category
+// semua API akan kita tambahkan authentication berupa API-key
+
+// driver yang kita gunakan
+// mysql : go get -u github.com/go-sql-driver/mysql
+// http router :  go get github.com/julienschmidt/httprouter
+// validation : go get github.com/go-playground/validator/v10
+// testify : go get github.com/stretchr/testify
+// install tool stub method : go install -v github.com/josharian/impl@v1.4.0
+// untuk package yang kurang installasi nya : go mod tidy
+
+// Error
+// biasanya error invalid connection : 2025/12/24 09:20:08 http: panic serving 127.0.0.1:63177: invalid connection
+goroutine 23 [running]: . Disebabkan ada proses yang tidak selesai (tidak ditutup). contoh rows

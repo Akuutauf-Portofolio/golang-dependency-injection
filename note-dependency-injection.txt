@@ -1,0 +1,70 @@
+dependencies injection
+- dalam pembuatan perangkat lunak, dependency injection merupakan sebuah teknik dimana sebuah object menerima object lain yang dibutuhkan (dependencies) ketika pembuatan object itu sendiri
+- object yang menerima dependencies disebut sebagai client. proses mengirim dependencies ke object tersebut disebut sebagai inject
+- dependency injection sudah pernah dilakukan, pada saat membuat object controller yang membutuhkan dependencies object service, ataupun membuat object service yang membutuhkan dependencies dari object repository
+- proses memasukkan object repository ke dalam object service disebut sebagai inject, dan client nya adalah service
+
+function sebagai constructor (1)
+- dalam bahasa pemrograman berorientasi object, ada istilah yang bernama constructor, yaitu sebuah function yang digunakan ketika sebuah object dibuat
+- di golang, biasanya kita juga membuat sebuah function untuk membuat object, dan mirip seperti constructor tugasnya, yaitu membuat object baru
+
+function sebagai constructor (2)
+- biasanya kita akan membuat object dengan memanggil function constructor tersebut, lalu mengirimkan dependencies yang dibutuhkan pada function constructor tersebut
+- cara ini mudah dilakukan, untuk program aplikasi yang tidak terlalu besar
+- namun saat program aplikasinya besar, akan semakin sulit untuk mengetahui urutan object mana yang harus dibuat terlebih dahulu
+- oleh karena itu, proses dependecy injection bisa dipermudah dengan memanfaatkan library
+
+dependency injection (Google Wire library)
+- menggunakan referensi ini : https://github.com/google/wire
+- gogole wire merupakan library dependency injection yang berbasis compile, kodenya akan digenerate, bukan di reflection
+- sehingga membuat google wire menjadi cepat, karena hasil kompilasinya adalah kode yang sudah di generate melakukan dependency injection, tanpa perlu mengunakan reflection lagi
+
+membuat project 
+- install google wire : go get github.com/google/wire
+
+menginstall wire
+- google wire mmebutuhkan command line berbasis wire / terminal, untuk melakukan auto generate kode dependency injection ketika nanti membuat kode
+- program ini perlu di install manual di komputer kita, dengan perintah :
+go install github.com/google/wire/cmd/wire@latest
+- secara otomatis akan ada file binary di $GOPATH/bin/wire
+- agar aplikasi bisa diakses, jangan lupa memasukkan ka $PATH sistem operasi kita, dapat memanggil langsung program wire tersebut
+
+provider 
+- untuk melakukan dependency injection, kita perlu buat dalam bentuk function constructor
+- dalam google wire, function constructor tersebut kita sebut sebagai Provider
+
+injector 
+- setelah membat provider, beriktunya kita perl membuat injector
+- injector adalah sebuah function constructor, namun isinya berupa konfigurasi yang kita beritahukan ke google wire
+- injector sebenarnya tidak akan digunakan oleh kode program kita, injector ini adalah function yang akan digunakan oleh google wire untuk melakukan auto generate kode dependecy injection
+- khusus ketika membuat injector, pada filenya kita perlu tambahkan komentar penanda :
+//go:build wireinject
+//+build wireinject
+
+dependecy injection
+- setelah kita membuat injector dan provider, selanjutnya yang perlu kita lakukan adalah menggunakan aplikasi command line google wire untuk melakukan auto generate kode dependency injection
+- kita bisa menggunakan perintah ini untuk melakukan auto generate kode dependecy injection:
+wire gen namapackage (belajar-go-lang-restful-api)
+- secara otomatis aplikasi google wire akan mencari kode injector di package tersebut, lalu membuat file wire_gen.go yang isinya adalah kode otomatis dependency injection
+- atau bisa masuk ke package lokasi injector nya mana, dan ketikan perintah : 'wire'
+- jangan mengedit isi file hasil generate google wire, karena nantinya jika ada pembaruan dependencies maka kode tersebut ketika digenerate ulang, akan di timpa dengan generate kode yang baru
+
+error pada google wire
+- google wire juga bisa mendeteksi jika terjadi error pada provider kita
+- jika terdapat error, secara otomatis akan mengembalikan error ketika kita melakukan dependency injection
+- caranya sederhana, kita cukup buat di provider return value kedua berupa error, dan di injector nya juga perlu kita tambahkan return value kedua berupa error
+
+injecor signature
+- saat membuat injector, kadang kita butuh parameter yang dinamis
+- dengan google wire, kita juga bisa mengirim parameter pada injector yang akan di generate secara otomatis
+- secara otomatis jika ada provider yang membutuhkan data dengan tipe parameter yang sama, secara otomatis data di parameter akan digunakan (jadi jika ada provider yang berbeda namun butuh tipe data parameter sama, maka cukup sekali digunakan). sehingga acuannya di sini adalah tipe data bukan nama parameter
+
+multiple binding
+- saat melakukan dependency injection, kadang ada kasus kita membuat beberapa provider dengan tipe data yang sama 
+- hal ini akan membuat error proses auto generate kode dependency injection, karena google wire tidak mendukung multiple binding dengan tipe data yang sama
+- pada kasus ini, kita bisa membuat tipe alias untuk multiple binding sebagai solusinya
+
+provider set
+- google wire memiliki fitur yang bernama provider set, fitur ini digunakan untuk melakukan gouping provider
+- provider set sangat berguna ketika kode program, provider kita sudah banyak. sehingga akan lebih mudah untuk dibaca ketika kita grouping data providernya
+
