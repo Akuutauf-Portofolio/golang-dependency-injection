@@ -29,7 +29,7 @@ type CategoryServiceImpl struct {
 // mendefinisikan construktor dari controller
 
 // membuat untuk router dengan return CategoryService (interface)
-func NewCategoryService(categoryRepository repository.CategoryRepository, DB *sql.DB, validate *validator.Validate) CategoryService {
+func NewCategoryService(categoryRepository repository.CategoryRepository, DB *sql.DB, validate *validator.Validate) *CategoryServiceImpl { // diganti menjadi *CategoryServiceImpl
 	return &CategoryServiceImpl{
 		CategoryRepository: categoryRepository,
 		DB: DB,

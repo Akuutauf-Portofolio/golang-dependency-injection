@@ -16,7 +16,7 @@ type CategoryRepositoryImpl struct {
 }
 
 // mendefinisikan constructor
-func NewCategoryRepository() CategoryRepository {
+func NewCategoryRepository() *CategoryRepositoryImpl { // diganti menjadi *CategoryRepositoryImpl
 	return &CategoryRepositoryImpl{}
 }
 

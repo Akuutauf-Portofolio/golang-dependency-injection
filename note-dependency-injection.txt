@@ -68,3 +68,30 @@ provider set
 - google wire memiliki fitur yang bernama provider set, fitur ini digunakan untuk melakukan gouping provider
 - provider set sangat berguna ketika kode program, provider kita sudah banyak. sehingga akan lebih mudah untuk dibaca ketika kita grouping data providernya
 
+binding interface 
+- dalam pembuatan aplikasi, sering kali kita biasanya menggunakan interface sebagai kontrak struct
+- secara default, google wire akan menggunakan tipe data asli untuk melakukan dependency injection, jadi jika terdapat parameter berupa interface, dan tidak ada provider yang mengembalikan interface tersebut, maka akan dianggap error
+- pada kasus ini, kita bisa memberi tahu google wire, jika kita ingin melakukan binding interface, yaitu memberi tahu sebuah interface akan mengunakan provider dengan tipe apa
+
+struct provider 
+- kita juga bisa membuat struct provider, yaitu struct yang bisa kita jadikan sebagai provider
+- secara otomatis struct yang kita sebutkan akan menjadi provider
+- dan kita juga bisa melakukan dependecy injection terhadap field yang terdapat di dalam struct tersebut, kita cukup menyebutkan field mana yang akan di inject
+- atau jika ingin melakukan injection ke semua field, kita bisa gunakan karakter * (bintang)
+
+binding values
+- kadang ada kasus dimana kita ingin melakukan dependency injection terhadap value yang sudah ada, tanpa harus membuat provider terlebih dahulu
+- untuk kasus seperti ini, kita bisa langsung sebutkan value dari object nya, tanpa menggunakan provider
+
+interface value
+- seperti sebelumnya, google wire akan melakukan dependecy injection sesuai tipe data providernya
+- pada kasus jika kita ingin menggunakan value berupa interface, maka kita perlu melakukan interface binding seperti yang sudah dibahas
+- atau ada cara yang lebih mudah, kita bisa binding value sekaligus dengan menyebutkan interfa yang digunakan oleh value tersebut
+
+struct field provider
+- google wire juga mendukung pembuatan provider dari field sebuah struct
+- misal pada kondisi kita ingin menggunakan sebuah field dari struct untuk dijadikan dependecy untuk provider lain
+
+cleanup function
+- jika provider membuat object yang membutuhkan proses cleanup (pembersihan) setelah object dibuat, maka pada provider kita bisa mengembalikan closure (function lagi)
+- closure secara otomatis akan dipanggil dalam proses cleanup oleh google wire

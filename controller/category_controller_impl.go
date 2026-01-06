@@ -20,7 +20,7 @@ type CategoryControllerImpl struct {
 // menambahkan function untuk kebutuhan endpoint (bukan method milik CategoryController)
 
 // membuat untuk router dengan return CategoryController (interface)
-func NewCategoryController(categoryService service.CategoryService) CategoryController {
+func NewCategoryController(categoryService service.CategoryService) *CategoryControllerImpl { // diganti menjadi *CategoryControllerImpl
 	// melakukan return dengan ponter
 	return &CategoryControllerImpl{
 		CategoryService: categoryService,

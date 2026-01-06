@@ -17,3 +17,6 @@ package main
 // Error
 // biasanya error invalid connection : 2025/12/24 09:20:08 http: panic serving 127.0.0.1:63177: invalid connection
 goroutine 23 [running]: . Disebabkan ada proses yang tidak selesai (tidak ditutup). contoh rows
+
+// Running
+// untuk menjalankan aplikasi gunakan : 'go run .'
